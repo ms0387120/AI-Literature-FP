@@ -151,12 +151,16 @@ print("Location: ")
 print(loc_set)
 f.close()
 #==========雙引號轉成上下引號==========
-rf=open("小紅帽.txt","r")
-wf=open("小紅帽_1.txt","w")
+#==========雙引號轉成上下引號==========
+rf=open("三隻小豬.txt","r")
+wf=open("三隻小豬_1.txt","w")
 quote=0
 
 for x in rf:
+    #print(x)
+    #print(quote)
     x = x.replace("\t","")
+    x = x.replace("\n","")
     if('\"' in x):
         for q in range(len(x)):
             if(quote==0 and x[q]=='\"'):
@@ -171,8 +175,11 @@ for x in rf:
             if(x[q]=='：' and x[q+1]!='\"'):
                 y = x[:q] + '「' + x[q+1:len(x)-1]+'」'
         wf.write(y+"\n")
-    else:
-        wf.write(x)
+    elif(x!="\n"):
+        wf.write(x+"\n")
+        
+    quote=0
+    print(y)
 
 rf.close()
 wf.close()
