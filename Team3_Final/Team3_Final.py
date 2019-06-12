@@ -179,10 +179,63 @@ wf.close()
 print("Quote Transform Finished")
 
 #==========說話人辨識==========
+import random
+
+f = open("小紅帽_1.txt","r")
+wf = open("小紅帽_2.txt","w")
+prev_occur = []
+occur_char=[]
+last_speaker=""
+#print(char)
+
+# initialize
+for i in range(len(char)):
+    prev_occur.append(0)
+
+for x in f:
+    #print(prev_occur)
+    if(x[0]=="「" and x[-2]=="」"):
+        
+        for j in range(len(prev_occur)):
+            if(prev_occur[j]!=0):
+                occur_char.append(char[j])
+        
+        print(occur_char)
+        if(len(occur_char)>1):
+            speaker = random.choice(occur_char)
+            while(last_speaker==speaker):
+                speaker = random.choice(occur_char)
+        
+        else:
+            #主角
+            occur_char.append(char[0])
+            speaker = random.choice(occur_char)
+            while(last_speaker==speaker):
+                speaker = random.choice(occur_char)
+
+        print(x[:-1]+speaker+"說\n")
+        wf.write(x[:-1]+speaker+"說\n")
+        last_speaker = speaker
+        occur_char=[]
+    
+    #other types
+    elif(x!="\n"):
+        
+        wf.write(x)
+        for i in range(len(prev_occur)):
+            prev_occur[i]=0
+            
+        for j in range(len(prev_occur)):
+            if(char[j] in x):
+                    prev_occur[j]+=1
+    
+f.close()
+wf.close()
+print("Speaker Recognition Finished")
 
 #==========判斷場景切割法==========
 ### Input reading
-f = open("小紅帽_1.txt", "r")
+f = open("小紅帽_2.txt", "r")
 outside = 0
 inside = 0
 
@@ -208,7 +261,7 @@ f.close()
 # Latest Version
 
 ### Input reading
-f = open("小紅帽_1.txt", "r")
+f = open("小紅帽_2.txt", "r")
 wf = open("小紅帽_劇本.txt", "w")
 
 last_loc = ""
@@ -507,7 +560,7 @@ for x in f:
                 
                 if(detect_print):
                         print(A+": "+dialogue)
-                        wf.write(A+": "+dialogue)
+                        wf.write(A+": "+dialogue+"\n")
                 else:
                     detect_print = True
                 
