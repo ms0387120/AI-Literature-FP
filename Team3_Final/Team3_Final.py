@@ -179,7 +179,6 @@ for x in rf:
         wf.write(x+"\n")
         
     quote=0
-    print(y)
 
 rf.close()
 wf.close()
